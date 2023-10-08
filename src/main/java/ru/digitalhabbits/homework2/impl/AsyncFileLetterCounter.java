@@ -59,6 +59,7 @@ public class AsyncFileLetterCounter implements FileLetterCounter {
 
     }
 
+
     private static LetterCounter getLetterCounter() {
         return input -> {
             ConcurrentHashMap<Character, Long> concurrentHashMap = new ConcurrentHashMap<>();
