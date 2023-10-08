@@ -14,7 +14,7 @@ import ru.digitalhabbits.homework2.impl.AsyncFileLetterCounter;
 public class E2ETests {
 
     @Test
-    void async_file_letter_counting_should_return_predicted_count() {
+    void async_file_letter_counting_should_return_predicted_count() throws InterruptedException {
         var file = getFile("test.txt");
         var counter = new AsyncFileLetterCounter();
 
@@ -29,6 +29,17 @@ public class E2ETests {
                 entry('f', 2629L)
         );
     }
+/*
+    @Count
+    void countTest() {
+        var counter = new CharFromStringCounting();
+
+        assertThat(counter.count("aaaabbbb")).contains(
+                entry('a', 4L),
+                entry('b', 4L)
+        );
+    }*/
+
 
     private File getFile(String name) {
         return new File(getResource(name).getPath());
