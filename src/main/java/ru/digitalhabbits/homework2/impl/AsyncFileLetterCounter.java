@@ -36,26 +36,19 @@ public class AsyncFileLetterCounter implements FileLetterCounter {
         List<Future<Map<Character,Long>>> futureList = new ArrayList<>();
 
         for (String line : linesList) {
-            futureList.add(es.submit(new Callable<Map<Character, Long>>() {
-                @Override
-                public Map<Character, Long> call() throws Exception {
-                    return letterCounter.count(line);
-                }
-            }));
+            futureList.add(es.submit(() -> letterCounter.count(line)));
         }
 
         es.shutdown();
         es.awaitTermination(2,TimeUnit.MINUTES);
 
-        futureList.stream().forEach(x -> {
+        futureList.forEach(x -> {
             try {
                 Map<Character, Long> map = x.get();
                 for (Map.Entry<Character, Long> each : map.entrySet()) {
                     mergedMap.merge(each.getKey(), each.getValue(), Long::sum);
                 }
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            } catch (ExecutionException e) {
+            } catch (InterruptedException | ExecutionException e) {
                 throw new RuntimeException(e);
             }
         });
