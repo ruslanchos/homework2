@@ -67,39 +67,32 @@ public class AsyncFileLetterCounter implements FileLetterCounter {
     }
 
     private static LetterCounter getLetterCounter() {
-        return new LetterCounter() {
-            @Override
-            public Map<Character, Long> count(String input) {
-                ConcurrentHashMap<Character, Long> concurrentHashMap = new ConcurrentHashMap<>();
-                char[] charArray = input.toCharArray();
-                for (char each : charArray) {
-                    if (concurrentHashMap.containsKey(each))
-                        concurrentHashMap.put(each, concurrentHashMap.get(each) + 1);
-                    else
-                        concurrentHashMap.put(each, 1L);
-                }
-                return concurrentHashMap;
+        return input -> {
+            ConcurrentHashMap<Character, Long> concurrentHashMap = new ConcurrentHashMap<>();
+            char[] charArray = input.toCharArray();
+            for (char each : charArray) {
+                if (concurrentHashMap.containsKey(each))
+                    concurrentHashMap.put(each, concurrentHashMap.get(each) + 1);
+                else
+                    concurrentHashMap.put(each, 1L);
             }
+            return concurrentHashMap;
         };
     }
 
     private static FileReader getFileReader() {
-        return new FileReader() {
-            @Override
-            public Stream<String> readLines(File file) {
-                List<String> list = new ArrayList<>();
+        return file -> {
+            List<String> list = new ArrayList<>();
 
-                File input = file;
-                try {
-                    Scanner scan = new Scanner(input);
-                    while (scan.hasNext()) {
-                        list.add(scan.nextLine());
-                    }
-                } catch (FileNotFoundException e) {
-                    throw new RuntimeException(e);
+            try {
+                Scanner scan = new Scanner(file);
+                while (scan.hasNext()) {
+                    list.add(scan.nextLine());
                 }
-                return list.stream();
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
             }
+            return list.stream();
         };
     }
 }
