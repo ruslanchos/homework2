@@ -15,7 +15,7 @@ public class E2ETests {
 
     @Test
     void async_file_letter_counting_should_return_predicted_count() throws InterruptedException {
-        var file = getFile("test.txt");
+        var file = getFile();
         var counter = new AsyncFileLetterCounter();
 
         Map<Character, Long> count = counter.count(file);
@@ -41,7 +41,7 @@ public class E2ETests {
     }*/
 
 
-    private File getFile(String name) {
-        return new File(getResource(name).getPath());
+    private File getFile() {
+        return new File(getResource("test.txt").getPath());
     }
 }
