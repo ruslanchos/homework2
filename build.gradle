@@ -26,8 +26,8 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.projectlombok:lombok:1.18.18'
-    annotationProcessor 'org.projectlombok:lombok:1.18.18'
+    implementation 'org.projectlombok:lombok:1.18.26'
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
     compileOnly "com.google.code.findbugs:jsr305:$fingBugsVersion"
     implementation "org.apache.commons:commons-lang3:$commonsLangVersion"
     implementation group: 'com.google.guava', name: 'guava', version: '31.1-jre'
