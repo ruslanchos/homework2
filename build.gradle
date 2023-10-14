@@ -10,6 +10,10 @@ ext {
     junitVersion = "5.7.0"
     mockitoVersion = "3.5.11"
 }
+jar {
+    duplicatesStrategy = 'exclude'
+}
+
 
 sourceCompatibility = 11
 targetCompatibility = 11
@@ -41,6 +45,7 @@ dependencies {
     testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.22.0'
 
 }
+
 
 test {
     useJUnitPlatform()
